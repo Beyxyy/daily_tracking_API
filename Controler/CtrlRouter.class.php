@@ -2,7 +2,7 @@
 require_once './Models/Routes.php';
 require_once 'Token.class.php';
 
-class Router{
+class CtrlRouter{
 
     private string $url;
     private string $method;
@@ -30,10 +30,25 @@ class Router{
         die();
     }
 
+    private function analyseUrl($url){
+        
+    }
+
      private function route(): ?bool
      {
          try {
+            $routes = Route::getRoutes();
+
+            //test of all the routes using regex
+            foreach ($routes as $route){
+                if(preg_match($route['route_url'], $this->url)){
+                    $this->url = $route['route_url'];
+                }
+
              $route = Route::getRoute($this->url);
+
+            
+
 
              if (!$route) {
                  throw new Exception('No existing route');

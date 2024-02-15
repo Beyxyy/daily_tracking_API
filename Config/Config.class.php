@@ -2,13 +2,9 @@
 
 class Config{
 
-
-    public $host;
-    public $pwd;
-    public $user;
-    public $key_enc;
-    
-    public function __construct() {
-        $this->var = $var;
-    }
+    const HOST = $_ENV['DBHOST'];
+    const PWD = $_ENV['DBPWD'];
+    const USER = $_ENV['DBUSER'];
+    const SECRET_KEY = $_ENV['KEY_ENC'];
+    const DBNAME = $_ENV['DBNAME'];
 }

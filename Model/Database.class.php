@@ -2,7 +2,7 @@
 /*********************************************************
 Classe permettant la communication avec la base de données
 *********************************************************/
-abstract class database {
+abstract class Database {
 
   // Objet permettant la connexion à la BDD
   private $bdd;
@@ -54,7 +54,7 @@ abstract class database {
     if (!isset($this->bdd))     // Si la connexion à la BDD n'est pas encore établie
       try {  // Connexion à la base de données et initialisation de la propriété bdd
         $options=array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-        $this->bdd = new PDO('mysql:host='.config::DBHOST.';dbname='.config::DBNAME, config::DBUSER, config::DBPWD, $options);
+        $this->bdd = new PDO('mysql:host='.Config::HOST.';dbname='.config::DBNAME, config::USER, config::PWD, $options);
         // $this->bdd = new PDO('mysql:host='.$conf->DBHOST.';dbname='.$conf->DBNAME, $conf->DBUSER, $conf->DBPWD, $options);
         
       }

@@ -7,21 +7,16 @@ class Router{
     private string $url;
     private string $method;
     private ?Token $token;
+    
      public function __construct($url){
 
        $this->url = $url['REQUEST_URI'];
        $this->method = $url['REQUEST_METHOD'];
-       $this->token = $this->ExtractToken($url);
+       $this->token = new Token($url);
 
         return $this->route();
      }
 
-
-     private function ExtractToken($url) {
-         $authorizationHeader = $url['HTTP_AUTHORIZATION'] ?? '';
-        preg_match('/Bearer\s(\S+)/', $authorizationHeader, $matches);
-        return $matches[1] ? new Token($matches[1])  : false;
-     }
 
      static function handleError($e){
          $err_data = array(
@@ -38,7 +33,7 @@ class Router{
      private function route(): ?bool
      {
          try {
-             $route = Route::getRoute($this->url, $this->method);
+             $route = Route::getRoute($this->url);
 
              if (!$route) {
                  throw new Exception('No existing route');
@@ -50,11 +45,11 @@ class Router{
              $auth = $route['auth'];
 
              if (class_exists($class) && method_exists($class, $method)) {
-                 if($auth!=NULL && !$this->token){
+                 if($auth!=NULL && !$this->token->isToken()){
                      throw new Exception("No token send, you must be authenticate to use this endpoint, login and try again");
                  }
 
-                 if($auth!=NULL && $this->token){
+                 if($auth!=NULL && $this->token->isToken()){
                      if($this->token->verifyRight($auth)){
                          throw new Exception("Missing right");
                      }

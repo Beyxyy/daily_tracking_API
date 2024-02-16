@@ -8,7 +8,7 @@ class CtrlRouter{
     private Response $response
     
      public function __construct($url){
-       $this->request = new request($url);
+       $this->request = new Request($url);
        $this->reponse = new Response;
        $this->token = new Token($this->request->auth)->verifyToken();
 

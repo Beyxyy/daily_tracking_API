@@ -7,7 +7,6 @@ class User extends Database{
     private string|null $email = null;
     private string|null $password = null;
     private string|null $createdAt = null;
-    private int|null    $id = null;
     private string|null $status = null;
     // private string|null 
 
@@ -21,8 +20,36 @@ class User extends Database{
             $this->name = $this->getStatus();
             $this->createdAt = new DatetimeImmutable();
         }
+
     }
 
+    public function getName(){
+        if(!$this->id){
+            return;
+        }
+        return $this->execReqPrep("SELECT user_name from user WHERE user_id = ?;", $this->id);
+    }
+
+    public function getEmail(){
+        if(!$this->id){
+            return;
+        }
+        return $this->execReqPrep("SELECT user_email from user WHERE user_id = ?;", $this->id);
+    }
+
+    public function getPassword(){
+        if(!$this->id){
+            return;
+        }
+        return $this->execReqPrep("SELECT user_password from user WHERE user_id = ?;", $this->id);
+    }
+
+    public function getStatus(){
+        if(!$this->id){
+            return;
+        }
+        return $this->execReqPrep("SELECT user_status from user WHERE user_id = ?;", $this->id);
+    }
 
     public function authenticateUser($email, $password){
         if(empty($email) and empty($password)){
@@ -36,7 +63,7 @@ class User extends Database{
         if(!$this->id){
             return;
         }
-        return $this->execReqPrep("Select * from user");
+        return $this->execReqPrep("Select * from user WHERE user_id = ?;", $this->id);
 
     }
 
@@ -67,9 +94,7 @@ class User extends Database{
 
     //creation d'un user
     public function createUser(){
-        if(!$this->id){
-            return;
-        }
+        
         return $this->execReqPrep('INSERT INTO USER VALUES (?,?,?,?,?);', [$this->name, $this->email, $this->pwd, $this->status, $this->createAt]);
     }
 

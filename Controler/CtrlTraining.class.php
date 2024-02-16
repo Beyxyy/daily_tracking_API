@@ -40,6 +40,7 @@ class CtrlTraining{
             $this->training->setExerciceRep = int;
             $this->training->setExerciceWeight = int;
             $this->training->setExerciceRest = 3;
+            $this->training->setUserId = Token::getUserId;
         }
         catch (Exception $e) {
             $this-> response -> setMessage($exception->getMessage())
@@ -68,6 +69,8 @@ class CtrlTraining{
                 return;
             }
             $this->training->getTrainings($userID);
+            $this->response->setData($this->training->getTrainings($userID))
+                           -> sendResponse();
 
         }
         catch (Exception $e) {
@@ -77,6 +80,8 @@ class CtrlTraining{
             return false;
         }
     }
+
+    private function 
 
     
 }

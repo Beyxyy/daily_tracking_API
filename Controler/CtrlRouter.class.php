@@ -1,38 +1,36 @@
 <?php
-require_once './Models/Routes.php';
-require_once 'Token.class.php';
+
 
 class CtrlRouter{
 
-    private string $url;
-    private string $method;
+    private Request $request;
     private ?Token $token;
+    private Response $response
     
      public function __construct($url){
-
-       $this->url = $url['REQUEST_URI'];
-       $this->method = $url['REQUEST_METHOD'];
-       $this->token = new Token($url);
+       $this->request = new request($url);
+       $this->reponse = new Response;
+       $this->token = new Token($this->request->auth)->verifyToken();
 
         return $this->route();
      }
 
+     private function analyseUrl($url){
 
-     static function handleError($e){
-         $err_data = array(
-             'status' => 'error',
-             'message' => $e
-         );
+     }
 
-         $json_err_response = json_encode($err_data);
-         header('Content-Type: application/json');
-        echo $e;
-        die();
+    private function match($url){
+        $url = trim($url, '/');
+        $path = preg_replace('#:([\w]+)#', '([^/]+)', $url);
+        $regex = "#^$path$#i";
+        if(!preg_match($regex, $url, $matches)){
+            return false;
+        }
+        array_shift($matches);
+        $this->matches = $matches;  // On sauvegarde les paramètres dans l'instance pour plus tard
+        return true;
     }
 
-    private function analyseUrl($url){
-        
-    }
 
      private function route(): ?bool
      {
@@ -40,46 +38,45 @@ class CtrlRouter{
             $routes = Route::getRoutes();
 
             //test of all the routes using regex
-            foreach ($routes as $route){
-                if(preg_match($route['route_url'], $this->url)){
-                    $this->url = $route['route_url'];
+
+               if($this->match($this->url)){
+                   $route = Route::getRoute($this->url);
+               }
+
+
+                if (!$route) {
+                     throw new Exception('No existing route');
+
                 }
 
-             $route = Route::getRoute($this->url);
+                $class = $route['class_name'];
+                $method = $route['method_name'];
+                $auth = $route['auth'];
 
-            
-
-
-             if (!$route) {
-                 throw new Exception('No existing route');
-
-             }
-
-             $class = $route['class_name'];
-             $method = $route['method_name'];
-             $auth = $route['auth'];
-
-             if (class_exists($class) && method_exists($class, $method)) {
-                 if($auth!=NULL && !$this->token->isToken()){
-                     throw new Exception("No token send, you must be authenticate to use this endpoint, login and try again");
-                 }
-
-                 if($auth!=NULL && $this->token->isToken()){
-                     if($this->token->verifyRight($auth)){
-                         throw new Exception("Missing right");
+                 if (class_exists($class) && method_exists($class, $method)) {
+                     if($auth!=NULL && !$this->token->isToken()){
+                         throw new Exception("No token send, you must be authenticate to use this endpoint, login and try again");
                      }
+
+                     if($auth!=NULL && $this->token->isToken()){
+                         if($this->token->verifyRight($auth)){
+                             throw new Exception("Missing right");
+                         }
+                     }
+
+                     if($method != $this->method){
+                         throw new Exception("Wrong method");
+                     }
+
+                     $instance = new $class();
+                     $instance->$method();
                  }
 
-                 if($method != $this->method){
-                     throw new Exception("Wrong method");
-                 }
-
-                 $instance = new $class();
-                 $instance->$method();
-             }
-
-         } catch (Exception $exception){
-             return self::handleError($exception->getMessage());
+            } catch (Exception $exception){
+             $this-> response -> setMessage($exception->getMessage())
+                              -> setCode($exception->getCode());
+                              -> sendResponse();
+                              
          }
          return true;
      }

@@ -1,4 +1,6 @@
 <?php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Token{
 
@@ -12,18 +14,23 @@ class Token{
         }
         $this->verifyToken($matches[1]);
         $this->token = $matches[1];
-        $this->payload = $this->decode($this->token);
     
     }
 
 
     public function verifyToken(){
-        $this->userID;
-       return 
+        $decoded = JWT::decode($this->token, new Key($_ENV["SECRET_KEY"], 'HS256'));
     }
 
     static function createToken($user){
-        // utilisation des infos de config pour ajuster la durée de validiter et les infos user
+        $payload = array(
+            "iss" => "http://example.org",
+            "iat" => 1356999524,
+            "exp" => 1357000000,
+            "userId" => $user
+        );
+        $jwt = JWT::encode($payload, new Key($_ENV["SECRET_KEY"]), 'HS256');
+        return $jwt;
     }
 
 

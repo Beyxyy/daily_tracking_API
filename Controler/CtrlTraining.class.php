@@ -7,7 +7,7 @@ class CtrlTraining{
     public function __construct($id=false){
         $this->id = $id;
         $this->response = new Response();
-        if(!$this->id){
+        if($this->id){
             $this->training = new Training();
         }
         else{
@@ -16,7 +16,7 @@ class CtrlTraining{
         
     }
 
-    private function createTraining(){
+    public function createTraining(){
         try{
             $data = Request::data();
             if(!$data){
@@ -44,23 +44,18 @@ class CtrlTraining{
         }
         catch (Exception $e) {
             $this-> response -> setMessage($exception->getMessage())
-                             -> setCode($exception->getCode());
+                             -> setCode($exception->getCode())
                              -> sendResponse();
             return false;
         }
     }
 
 
-    private function getTrainings(){
+    public function getTrainings(){
         try{
             $data = extract(Request::data());
             if(!$data){
                 throw new Exception('Values Invalid no data send');
-                return;
-            }
-
-            if(!isset($userID)){
-                throw new Exception('Values Necessary for this endpoint are missing, please check you sent required data');
                 return;
             }
 
@@ -75,13 +70,25 @@ class CtrlTraining{
         }
         catch (Exception $e) {
             $this-> response -> setMessage($exception->getMessage())
-                              -> setCode($exception->getCode());
+                              -> setCode($exception->getCode())
                               -> sendResponse();
             return false;
         }
     }
 
-    private function 
+    public function getTrainingWorkout(){
+        try{
+            User::getID();
+            $this->training->getTrainingWorkout();
+            
+        }
+        catch(Exception $e){
+            $this-> response -> setMessage($exception->getMessage())
+                             -> setCode($exception->getCode())
+                             -> sendResponse();
+            return false;
+        }
+    } 
 
     
 }

@@ -21,7 +21,7 @@ class Response{
     }
 
     public function sendResponse(){
-        if(200<int($this->code)<300){
+        if(200 <int($this->code) and int($this->code) < 300){
             $this->status = 'success';
         }
         $data = array(

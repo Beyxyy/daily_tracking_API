@@ -98,7 +98,6 @@ class User extends Database{
         return $this->execReqPrep('INSERT INTO USER VALUES (?,?,?,?,?);', [$this->name, $this->email, $this->pwd, $this->status, $this->createAt]);
     }
 
-
     /*****************************
         modification d'un user 
     ******************************/
@@ -117,5 +116,22 @@ class User extends Database{
 
     public function setStatus($status){
         return $this->status = $status;
+    }
+
+
+    /*******************
+     * vérification du user
+     */
+    public function login($email, $password){
+        if(empty($email) and empty($password)){
+            return false;
+        }
+        $result = $this->execReqPrep("SELECT user_id FROM user WHERE user_email = ? AND user_password = ?", [$this->email, $this->password]);
+        if($result){
+            return $result;
+        }
+        else{
+            return false;
+        }
     }
 }

@@ -4,10 +4,9 @@
 
 class Request{
 
-    static string $url = $_SERVER['REQUEST_METHOD'];
-    static string $method = $_SERVER['REQUEST_URI'];
-    static string $auth = $_SERVER['AUTHORIZATION'] ? $_SERVER['AUTHORIZATION'] : '';
-    static string $data ="";
+    static $method = $_SERVER['REQUEST_URI'];
+    static $auth = $_SERVER['AUTHORIZATION'] ? $_SERVER['AUTHORIZATION'] : '';
+    static $data ="";
 
 
     public static function initContent(){

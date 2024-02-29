@@ -24,7 +24,6 @@ class CtrlRouter{
 
 
        $this->training = new Training();
-       $this->CtrlConnexion = new CtrlConnexion();
        $this->user = new User();
        $this->exercice = new Exercice();
 
@@ -57,11 +56,8 @@ class CtrlRouter{
                 $this-> training ->getTraining($id);
             });
 
-            $this->router->map('GET|POST','/login', function($request, $response, $args) {
-                $login["token"] = $this -> CtrlConnexion -> login($request);
-                $response->setMessage(json_encode($login))
-                         ->setCode(200)
-                         ->sendResponse();
+            $this->router->map('GET','/login', function($id) {
+                $this-> token ->createToken($id);
             });
 
             

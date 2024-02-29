@@ -3,7 +3,11 @@
 class CtrlTraining{
 
     private $id;
+    private $training;
     private $response;
+    private $exercice;
+
+
     public function __construct($id=false){
         $this->id = $id;
         $this->response = new Response();
@@ -16,15 +20,17 @@ class CtrlTraining{
         
     }
 
+
+    //create a new training
     public function createTraining(){
         try{
-            $data = Request::data();
+            $data = Request::$data;
             if(!$data){
                 throw new Exception('Values Invalid no data send');
                 return;
             }
 
-            extract(Request::data());
+            extract(Request::$data);
 
             if(!isset($ExerciceID) and !isset($ExerciceRep) and !isset($ExerciceWeight) and !isset($ExerciceRest)){
                 throw new Exception('Values Necessary for this endpoint are missing, please check you sent required data');
@@ -36,11 +42,7 @@ class CtrlTraining{
                 return;
             }
 
-            $this->training->setExercice = int;
-            $this->training->setExerciceRep = int;
-            $this->training->setExerciceWeight = int;
-            $this->training->setExerciceRest = 3;
-            $this->training->setUserId = Token::getUserId;
+            $this->training->EnregTrainingExercice($ExerciceID, $ExerciceRep, $ExerciceWeight, $ExerciceRest, Token::$userId);
         }
         catch (Exception $e) {
             $this-> response -> setMessage($exception->getMessage())
@@ -51,14 +53,9 @@ class CtrlTraining{
     }
 
 
-    public function getTrainings(){
+    //get all trainings
+    public function getTrainingsByUser(){
         try{
-            $data = extract(Request::data());
-            if(!$data){
-                throw new Exception('Values Invalid no data send');
-                return;
-            }
-
             if(!is_int($userID)){
                 throw new Exception('Values Invalid for this endpoint, please check the variables\'s types');
                 return;
@@ -89,6 +86,10 @@ class CtrlTraining{
             return false;
         }
     } 
+
+    public function setExercice(){
+
+    }
 
     
 }

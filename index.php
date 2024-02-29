@@ -13,23 +13,16 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 
-if(Request::$auth != ''){
-    $token = new Token(Request::$auth);
-    
-    if($token->verifyToken()){
-        $router = new CtrlRouter($_SERVER);
-    }
-    else{
-        $response = new Response();
-        $response->setMessage('Token is not valid, you must be authenticate to use this endpoint, login and try again')
-                 ->setCode(401)
-                 ->sendResponse();
-    }
+$token = new Token(Request::$auth);
+if($token->userId){
+    $router = new CtrlRouter($_SERVER);
 }
 else{
     $response = new Response();
-    $response->setMessage('No token send, you must be authenticate to use this endpoint, login and try again')
-             ->setCode(401)
-             ->sendResponse();
+    $response->setMessage('Token is not valid, you must be authenticate to use this endpoint, login and try again')
+                ->setCode(401)
+                ->sendResponse();
 }
+
+
 

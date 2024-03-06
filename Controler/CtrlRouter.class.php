@@ -20,7 +20,7 @@ class CtrlRouter{
        $this->method = $url['REQUEST_METHOD'];
        $this->token = new Token($url);
        $this->response = new Response();
-       $this->request = new Request();
+       $this->request = new Request($_SERVER);
        $this->router = new AltoRouter();
        $this->training = new Training();
        $this->CtrlConnexion = new CtrlConnexion();

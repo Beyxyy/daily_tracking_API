@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 require_once './Config/Config.class.php';
 require_once './Controler/CtrlRouter.class.php';
 require_once './Model/Request.class.php';

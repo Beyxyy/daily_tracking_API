@@ -31,25 +31,37 @@ class CtrlRouter{
      }
 
 
-     private function route(): ?bool
+     private function route()
      {
-         try {
+        try {
             $this->router->map('GET', '/', function() {
-                
+                 $this-> response ->setMessage('Welcome to the Daily Tracking API')
+                                  ->setCode(202)
+                                 ->sendResponse();
             });
 
             $this->router->map('GET','/training/[i:id]/', function($id) {
-                $this-> training ->getTraining($id);
+                  $this-> training ->getTraining($id);
             });
 
             $this->router->map('GET','/login', function($request, $response, $args) {
                 $login["token"] = $this -> CtrlConnexion -> login($request);
-                $response->setMessage(json_encode($login))
+                 $response->setMessage(json_encode($login))
                          ->setCode(200)
                          ->sendResponse();
             });
 
             $match = $this->router->match();  
+            // echo '<pre>';  
+            // var_dump($match);       
+            // echo '<pre>';  
+            if ($match !=false && is_callable($match['target'])) {
+                // La correspondance est réussie et la cible est une fonction callable
+                call_user_func_array($match['target'], $match['params']);
+            } else {
+                // Gérer le cas où aucune correspondance n'est trouvée
+                echo "Aucune correspondance trouvée.";
+            }
 
          } catch (Exception $exception){
             $this-> response -> setMessage($exception->getMessage())

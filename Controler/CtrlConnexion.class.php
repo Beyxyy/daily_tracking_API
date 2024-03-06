@@ -6,7 +6,6 @@ class CtrlConnexion
     private $response;
     private $token;
     private $request;
-    private $database;
 
     public function __construct()
     {
@@ -14,7 +13,6 @@ class CtrlConnexion
         $this->response = new Response();
         $this->token = new Token();
         $this->request = new Request();
-        $this->database = new Database();
     }
 
     private function login($request): ?bool

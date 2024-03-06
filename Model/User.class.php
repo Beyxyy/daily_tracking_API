@@ -2,16 +2,16 @@
 
 class User extends Database{
 
-    private ?int $id = false;
-    private string|null $name = null;
-    private string|null $email = null;
-    private string|null $password = null;
-    private string|null $createdAt = null;
-    private string|null $status = null;
+    private  $id        = false;
+    private  $name      = null;
+    private  $email     = null;
+    private  $password  = null;
+    private  $createdAt = null;
+    private  $status    = null;
     // private string|null 
 
 
-    public function __construct(?int $id = false){
+    public function __construct($id = false){
         $this->id = $id;
         if(!$this->id){
             $this->name = $this->getName();
@@ -59,7 +59,7 @@ class User extends Database{
     }
 
     //récupération d'un seul user à partir de son id
-    public function getUser() : ?int{
+    public function getUser(){
         if(!$this->id){
             return;
         }
@@ -68,7 +68,7 @@ class User extends Database{
     }
 
     //récupération de tous les users
-    public function getUsers() : ?array{
+    public function getUsers(){
         if(!$this->id){
             return;
         }

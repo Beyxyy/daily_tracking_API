@@ -1,5 +1,7 @@
 <?php
 
+require_once './Model/Database.class.php';
+
 class Training extends Database{
 
     private $userId;

@@ -91,5 +91,9 @@ class CtrlTraining{
 
     }
 
+    public function getTraining($id){
+        
+    }
+
     
 }

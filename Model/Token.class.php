@@ -4,11 +4,11 @@ use Firebase\JWT\Key;
 
 class Token{
 
-    public static $token;
-    public static $userId = false;
-    public static $payload;
+    public $token = false;
 
-
+    public function __construct($url){
+        
+    }
 
     static function createToken($userId){
         $payload = array(

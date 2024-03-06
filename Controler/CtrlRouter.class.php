@@ -11,6 +11,7 @@ class CtrlRouter{
     private $training;
     private $user;
     private $exercice;
+    public $request;  
 
     
      public function __construct($url){
@@ -19,14 +20,12 @@ class CtrlRouter{
        $this->method = $url['REQUEST_METHOD'];
        $this->token = new Token($url);
        $this->response = new Response();
+       $this->request = new Request();
        $this->router = new AltoRouter();
-
-
        $this->training = new Training();
        $this->CtrlConnexion = new CtrlConnexion();
        $this->user = new User();
        $this->exercice = new Exercice();
-
        return $this->route();
      }
 
@@ -41,6 +40,7 @@ class CtrlRouter{
             });
 
             $this->router->map('GET','/training/[i:id]/', function($id) {
+                if($this->CtrlConnexion->isLogin)
                   $this-> training ->getTraining($id);
             });
 

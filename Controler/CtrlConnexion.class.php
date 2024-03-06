@@ -15,9 +15,9 @@ class CtrlConnexion
         $this->request = new Request();
     }
 
-    private function login($request): ?bool
+    public function login($data): ?bool
     {
-        $this->request = $request;
+        $this->request = $data;
         try {
                 if(isset($this->request->body->email) and isset($this->request->body->password)){
                     $this->user->email = $this->request->body->email;
@@ -37,6 +37,10 @@ class CtrlConnexion
             //die quietly
             return false;
         }
-        return true;
+    }
+
+
+    public function verify($token){
+        
     }
 }

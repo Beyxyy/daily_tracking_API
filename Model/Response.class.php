@@ -23,7 +23,7 @@ class Response{
     }
 
     public function sendResponse(){
-        if(200 <intval($this->code) and intval($this->code) < 300){
+        if(199 < intval($this->code) and intval($this->code) < 300){
             $this->status = 'success';
         }
         $this->data = array(

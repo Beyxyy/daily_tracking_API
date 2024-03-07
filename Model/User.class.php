@@ -122,8 +122,8 @@ class User extends Database{
     /*******************
      * vérification du user
      */
-    public function authenticate($email, $password){
-        if(empty($email) and empty($password)){
+    public function authenticate(){
+        if(empty($this->email) and empty($this->password)){
             return false;
         }
         $result = $this->execReqPrep("SELECT user_id FROM user WHERE user_email = ? AND user_password = ?", [$this->email, $this->password]);

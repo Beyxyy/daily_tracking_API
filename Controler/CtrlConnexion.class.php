@@ -17,14 +17,14 @@ class CtrlConnexion
     public function login($data): ?bool
     {
         $this->request = $data;
-        echo '<pre>';
-        var_dump($this->request);
-        echo '</pre>';
+        // echo '<pre>';
+        // var_dump($this->request);
+        // echo '</pre>';
         try {
                 if(isset($this->request->data["email"]) and isset($this->request->data["password"])){
                     $this->user->setEmail($this->request->data["email"]);
                     $this->user->setPassword($this->request->data["password"]);
-                    $user= $this->user->authenticate($this->request->token);
+                    // $user= $this->user->authenticate();
                     if(true){
                         return $this->token->createToken(2);
                     }

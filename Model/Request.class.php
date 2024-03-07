@@ -11,7 +11,7 @@ class Request{
     public function __construct($server){
             $raw_data = file_get_contents('php://input');
             $data = json_decode($raw_data, true);
-            var_dump(file_get_contents('php://input'));
+            // var_dump(file_get_contents('php://input'));
             if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
                 $this->data=null;
             }
@@ -23,7 +23,7 @@ class Request{
             //get the authorization header
             $headers = apache_request_headers();
             $header = isset($headers['Authorization']) ? $headers['Authorization'] : "";
-            $this->token = preg_match('/Bearers(S+)/', $header, $matches) ? $matches[1] : null;
+            $this->token = preg_match('/Bearer\s((.*)\.(.*)\.(.*))/', $header, $matches) ? $matches[1] : null;
             return $this;            
     }
 

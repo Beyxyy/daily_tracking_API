@@ -23,7 +23,7 @@ class CtrlRouter{
        $this->request = new Request($_SERVER);
        $this->router = new AltoRouter();
        $this->training = new Training();
-       $this->CtrlConnexion = new CtrlConnexion();
+       $this->CtrlConnexion = new CtrlConnexion($url);
        $this->user = new User();
        $this->exercice = new Exercice();
        return $this->route();

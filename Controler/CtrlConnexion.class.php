@@ -7,12 +7,11 @@ class CtrlConnexion
     private $token;
     private $request;
 
-    public function __construct()
+    public function __construct($url)
     {
         $this->user = new User();
         $this->response = new Response();
-        $this->token = new Token();
-        $this->request = new Request();
+        $this->token = new Token($url);
     }
 
     public function login($data): ?bool

@@ -11,7 +11,8 @@ class CtrlRouter{
     private $training;
     private $user;
     private $exercice;
-    public $request;  
+    public $request;
+    public $body;  
 
     
      public function __construct($url){
@@ -27,6 +28,7 @@ class CtrlRouter{
        $this->user = new User();
        $this->exercice = new Exercice();
        return $this->route();
+        
      }
 
 
@@ -34,7 +36,7 @@ class CtrlRouter{
      {
         try {
             $this->router->map('GET', '/', function() {
-                 $this-> response ->setMessage('Welcome to the Daily Tracking API')
+                 $this-> response ->setData('Welcome to the Daily Tracking API')
                                   ->setCode(202)
                                  ->sendResponse();
             });
@@ -44,27 +46,29 @@ class CtrlRouter{
                   $this-> training ->getTraining($id);
             });
 
-            $this->router->map('GET','/login', function($request, $response, $args) {
-                $login["token"] = $this -> CtrlConnexion -> login($request);
-                 $response->setMessage(json_encode($login))
-                         ->setCode(200)
-                         ->sendResponse();
+            $this->router->map('GET','/login', function() {
+                $login["token"] = $this -> CtrlConnexion -> login($this->request);
+                if($login["token"] != false){
+                    $this->response->setData(json_encode($login))
+                                ->setCode(200)
+                                ->sendResponse();
+                }
+                else{
+                    $this->response->setCode(500)
+                                   ->sendResponse();
+                }
+                 
             });
 
             $match = $this->router->match();  
-            // echo '<pre>';  
-            // var_dump($match);       
-            // echo '<pre>';  
             if ($match !=false && is_callable($match['target'])) {
-                // La correspondance est réussie et la cible est une fonction callable
                 call_user_func_array($match['target'], $match['params']);
             } else {
-                // Gérer le cas où aucune correspondance n'est trouvée
                 echo "Aucune correspondance trouvée.";
             }
 
          } catch (Exception $exception){
-            $this-> response -> setMessage($exception->getMessage())
+            $this-> response -> setData($exception->getMessage())
                              -> setCode($exception->getCode())
                              -> sendResponse();
          }

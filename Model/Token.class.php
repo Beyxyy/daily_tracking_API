@@ -12,7 +12,7 @@ class Token{
 
     static function createToken($userId){
         $payload = array(
-            "iss" => "http://example.org",
+            "iss" => "daily-tracking.anthony-kalbe.fr",
             "iat" => 1356999524,
             "exp" => 1357000000,
             "userId" => $userId

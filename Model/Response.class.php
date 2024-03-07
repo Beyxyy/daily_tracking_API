@@ -7,7 +7,7 @@ class Response{
     private  $status  = 'error';
     private  $data    = [];
     
-    public function setMessage($e){
+    public function setData($e){
         $this->message = $e;
         return $this;
     }
@@ -20,7 +20,6 @@ class Response{
 
     public function setResponse(){
          return json_encode($this->data);
-        
     }
 
     public function sendResponse(){
@@ -30,8 +29,7 @@ class Response{
         $this->data = array(
             'status'  => $this->status,
             'code'    => $this->code,
-            'message' => $this->message,
-            'data'    => $this->data
+            'data' => $this->message,
         );        
          echo $this->setResponse();
         die();

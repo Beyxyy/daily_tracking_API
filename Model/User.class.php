@@ -122,7 +122,7 @@ class User extends Database{
     /*******************
      * vérification du user
      */
-    public function login($email, $password){
+    public function authenticate($email, $password){
         if(empty($email) and empty($password)){
             return false;
         }

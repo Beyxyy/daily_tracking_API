@@ -1,3 +1,9 @@
 RewriteEngine on
+
+# Si le fichier demandé n'existe pas, redirige vers index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L]
+
+# Si le header Authorization est présent, transmet-le au serveur
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

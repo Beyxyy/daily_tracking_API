@@ -41,6 +41,15 @@ class CtrlRouter{
                                  ->sendResponse();
             });
 
+
+            $this->router->map('GET','/user/[i:id]', function($id) {
+                if($this->CtrlConnexion->isLogin()){
+                    $this->user= new User($id);
+                    $this->user->getUser();
+                }
+                  
+            });
+
             $this->router->map('GET','/training/[i:id]/', function($id) {
                 if($this->CtrlConnexion->isLogin)
                   $this-> training ->getTraining($id);
@@ -64,7 +73,8 @@ class CtrlRouter{
             if ($match !=false && is_callable($match['target'])) {
                 call_user_func_array($match['target'], $match['params']);
             } else {
-                echo "Aucune correspondance trouvée.";
+                $this->response->setCode(404)
+                                ->sendResponse();
             }
 
          } catch (Exception $exception){

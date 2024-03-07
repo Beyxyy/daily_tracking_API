@@ -23,6 +23,17 @@ class User extends Database{
 
     }
 
+    public function getId(){
+        return $this->id;
+    }
+
+    public function getCreatedAt(){
+        if(!$this->id){
+            return;
+        }
+        return $this->execReqPrep("SELECT user_createdAt from user WHERE user_id = ?;", $this->id);
+    }
+
     public function getName(){
         if(!$this->id){
             return;
@@ -111,7 +122,7 @@ class User extends Database{
     }
 
     public function setPassword($pwd){
-        return $this->pwd = $pwd;
+        return $this->password = $pwd;
     }
 
     public function setStatus($status){

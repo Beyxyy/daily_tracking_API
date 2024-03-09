@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 07 mars 2024 à 20:55
+-- Généré le : sam. 09 mars 2024 à 16:01
 -- Version du serveur : 5.7.33
 -- Version de PHP : 7.4.27
 
@@ -71,8 +71,15 @@ CREATE TABLE `user` (
   `user_email` varchar(255) DEFAULT NULL,
   `user_password` varchar(255) DEFAULT NULL,
   `user_role` varchar(255) DEFAULT NULL,
-  `user_createdAtt` timestamp NULL DEFAULT NULL
+  `user_createdAt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_username`, `user_email`, `user_password`, `user_role`, `user_createdAt`) VALUES
+(1, 'Beyxy', 'test@test.test', 'test', NULL, '2024-03-07 20:25:13');
 
 --
 -- Index pour les tables déchargées
@@ -102,6 +109,28 @@ ALTER TABLE `training`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `exercice`
+--
+ALTER TABLE `exercice`
+  MODIFY `exercice_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `set`
+--
+ALTER TABLE `set`
+  MODIFY `set_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `training`
+--
+ALTER TABLE `training`
+  MODIFY `training_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées

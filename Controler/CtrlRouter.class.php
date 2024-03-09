@@ -43,15 +43,22 @@ class CtrlRouter{
 
 
             $this->router->map('GET','/user/[i:id]', function($id) {
-                if($this->CtrlConnexion->isLogin()){
+                if($this->CtrlConnexion->verify($this->request->token, $id)){
                     $this->user= new User($id);
-                    $this->user->getUser();
+                    // $this->user->getUser();
+                    $this->response->setData(json_encode($this->user->getUser()))
+                                  ->setCode(200)
+                                  ->sendResponse();
+                }
+                else{
+                    $this->response->setCode(401)
+                                   ->sendResponse();
                 }
                   
             });
 
             $this->router->map('GET','/training/[i:id]/', function($id) {
-                if($this->CtrlConnexion->isLogin)
+                if($this->CtrlConnexion->verify($this->request->token, $id))
                   $this-> training ->getTraining($id);
             });
 

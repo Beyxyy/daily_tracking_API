@@ -15,9 +15,9 @@ class User extends Database{
         $this->id = $id;
         if(!$this->id){
             $this->name = $this->getName();
-            $this->name = $this->getEmail();
-            $this->name = $this->getPassword();
-            $this->name = $this->getStatus();
+            $this->email = $this->getEmail();
+            $this->password = $this->getPassword();
+            $this->role = $this->getRole();
             $this->createdAt = new DatetimeImmutable();
         }
 
@@ -55,11 +55,11 @@ class User extends Database{
         return $this->execReqPrep("SELECT user_password from user WHERE user_id = ?;", $this->id);
     }
 
-    public function getStatus(){
+    public function getRole(){
         if(!$this->id){
             return;
         }
-        return $this->execReqPrep("SELECT user_status from user WHERE user_id = ?;", $this->id);
+        return $this->execReqPrep("SELECT user_role from user WHERE user_id = ?;", $this->id);
     }
 
     public function authenticateUser($email, $password){
@@ -74,7 +74,7 @@ class User extends Database{
         if(!$this->id){
             return;
         }
-        return $this->execReqPrep("Select * from user WHERE user_id = ?;", $this->id);
+        return $this->execReqPrep("Select user_id, user_username, user_email, user_createdAt, user_role from user WHERE user_id = ?;", $this->id);
 
     }
 

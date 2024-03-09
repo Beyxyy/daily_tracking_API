@@ -40,7 +40,12 @@ class CtrlConnexion
     }
 
 
-    public function verify($token){
-        
+    public function verify($token, $id=null){
+        if($id==null){
+            return $this->token->verifyToken($token);
+        }
+        else{
+            return $this->token->verifyToken($token, $id);
+        }
     }
 }

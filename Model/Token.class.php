@@ -29,5 +29,26 @@ class Token{
 
     }
 
+    public function verifyToken($token, $id=null){
+        if($token == null){
+            return false;
+        }
+        if($id == null){
+            $decoded = JWT::decode($token, new Key($_ENV["SECRET_KEY"], 'HS256'));
+            return $decoded;
+        }
+        else{
+            $decoded = JWT::decode($token, new Key($_ENV["SECRET_KEY"], 'HS256'));
+            if($decoded->userId == $id){
+                return $decoded;
+            }
+            else{
+                return false;
+            }
+        }
+        $decoded = JWT::decode($token, new Key($_ENV["SECRET_KEY"], 'HS256'));
+        return $decoded;
+    }
+
 
 }
